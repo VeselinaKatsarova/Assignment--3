@@ -13,6 +13,7 @@ lifts = ["LiftA", "LiftB", "LiftC"]
 gates = ["Gate1", "Gate2", "Gate3"]
 statuses = ["success", "denied"]
 
+# Databse
 conn = psycopg2.connect(
     dbname="ski_db",
     user="postgres",
@@ -20,6 +21,7 @@ conn = psycopg2.connect(
     host="localhost"
 )
 
+# generate the random information
 def simulate_scan():
     return {
         "scan_time": datetime.now(timezone.utc),
@@ -36,6 +38,7 @@ def simulate_scan():
         }
     }
 
+# insert the data in the table
 def insert_event(event):
     with conn.cursor() as cur:
         cur.execute("""
@@ -49,9 +52,12 @@ def insert_event(event):
         ))
         conn.commit()
 
+# insert 100 information
 for _ in range(100):
     insert_event(simulate_scan())
     time.sleep(0.1)
 
 conn.close()
+
+# print when it is ready
 print("Ready")
