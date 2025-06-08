@@ -1,5 +1,6 @@
 import psycopg2
 
+# connection to the database
 CONNECTION = "dbname=ski_db user=postgres password=secret host=localhost port=5432"
 
 conn = psycopg2.connect(CONNECTION)
@@ -14,8 +15,9 @@ FROM skipass_telemetry
 GROUP BY bucket, client_id
 ORDER BY bucket;
 """
-cursor.execute(query)
+cursor.execute(query) # execute the query
 
+# print the select
 rows = cursor.fetchall()
 for row in rows:
     print(row)
