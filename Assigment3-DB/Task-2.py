@@ -1,6 +1,7 @@
 import mysql.connector
 import psycopg2
 
+# MariaDB database
 maria_conn = mysql.connector.connect(
     user="root",
     password="my-secret-pw",
@@ -8,8 +9,9 @@ maria_conn = mysql.connector.connect(
     port=3306,
     database="ski_hotel"
 )
-maria_cursor = maria_conn.cursor(dictionary=True)
+maria_cursor = maria_conn.cursor(dictionary=True) # connectiong to the database
 
+# database info
 pg_conn = psycopg2.connect(
     dbname="ski_db",
     user="postgres",
@@ -17,8 +19,9 @@ pg_conn = psycopg2.connect(
     host="localhost",
     port=5432
 )
-pg_cursor = pg_conn.cursor()
+pg_cursor = pg_conn.cursor() # connectiong to the database
 
+#Tables from database
 tables = [
     ("Ski_pass", ["type_pass", "price"]),
     ("Pass_info", ["pass_id", "location", "difficulty", "size"]),
@@ -31,6 +34,7 @@ tables = [
     ("Review", ["review_id", "comment", "rating_room", "rating_ski_pass", "reservation_id"])
 ]
 
+# adding the tables in the new database
 for table, columns in tables:
     print(f"Migrating {table}")
     try:
@@ -69,4 +73,5 @@ pg_cursor.close()
 maria_conn.close()
 pg_conn.close()
 
+# When the process is finished print - Completed
 print("Completed")
